@@ -1,0 +1,67 @@
+<% const currentPath = locals.currentPath || ''; %>
+
+<aside
+  class="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white"
+  style="width: 260px; min-height: 100vh"
+>
+  <!-- Logo -->
+  <a
+    href="/admin/dashboard"
+    class="d-flex align-items-center mb-4 text-white text-decoration-none"
+  >
+    <span class="fs-5 fw-bold">🛡️ BlogAdmin</span>
+  </a>
+
+  <!-- Nav -->
+  <ul class="nav nav-pills flex-column mb-auto gap-1">
+    <li class="nav-item">
+      <a
+        href="/admin/dashboard"
+        class="nav-link text-white <%= currentPath === 'dashboard' ? 'active bg-primary' : '' %>"
+      >
+        🏠 Dashboard
+      </a>
+    </li>
+
+    <li>
+      <a
+        href="/admin/blogs"
+        class="nav-link text-white <%= currentPath === 'blogs' ? 'active bg-primary' : '' %>"
+      >
+        📝 Manage Blogs
+      </a>
+    </li>
+
+    <li>
+      <a
+        href="/admin/categories"
+        class="nav-link text-white <%= currentPath === 'categories' ? 'active bg-primary' : '' %>"
+      >
+        📂 Categories
+      </a>
+    </li>
+
+    <li>
+      <a
+        href="/admin/writers"
+        class="nav-link text-white <%= currentPath === 'writers' ? 'active bg-primary' : '' %>"
+      >
+        👥 Writers
+      </a>
+    </li>
+  </ul>
+
+  <hr class="text-secondary" />
+
+  <!-- Footer -->
+  <div class="mt-auto">
+    <div class="small text-secondary mb-2">
+      Logged in as<br />
+      <strong class="text-white"><%= user ? user.name : 'Admin' %></strong>
+    </div>
+
+    <a href="/admin/logout" class="btn btn-outline-light w-100 btn-sm">
+      Logout
+    </a>
+  </div>
+</aside>

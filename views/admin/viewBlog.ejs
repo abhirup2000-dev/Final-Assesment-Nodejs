@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <%= title %>
+  </title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #8b5cf6;
+      --bg: #020617;
+      --card: rgba(255, 255, 255, 0.05);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 10% 20%, #1e1b4b, #020617);
+      color: var(--text);
+      margin: 0;
+    }
+
+    /* glow blobs */
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      z-index: 0;
+    }
+
+    body::before {
+      width: 350px;
+      height: 350px;
+      background: rgba(99, 102, 241, 0.25);
+      top: -100px;
+      right: -100px;
+    }
+
+    body::after {
+      width: 280px;
+      height: 280px;
+      background: rgba(139, 92, 246, 0.25);
+      bottom: -100px;
+      left: -100px;
+    }
+
+    /* HEADER */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: #fff;
+      border-radius: 10px;
+      padding: 8px 14px;
+      transition: 0.2s;
+    }
+
+    .btn-glass:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-1px);
+    }
+
+    /* CONTAINER */
+    .blog-container {
+      max-width: 900px;
+      margin: 50px auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* CARD */
+    .blog-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      overflow: hidden;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+      animation: fadeUp .4s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* COVER */
+    .cover {
+      position: relative;
+    }
+
+    .cover img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+    }
+
+    .category-badge {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* CONTENT */
+    .content {
+      padding: 28px;
+    }
+
+    .title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 15px;
+    }
+
+    /* STATS */
+    .stats {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .stat-pill {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .blog-text {
+      line-height: 1.8;
+      font-size: 0.95rem;
+      color: #cbd5f5;
+      margin-bottom: 20px;
+      white-space: pre-line;
+    }
+
+    /* COMMENTS */
+    .comments-box {
+      margin-top: 35px;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+
+    .comments-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .comment-count {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .scroll-comments {
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+
+    .scroll-comments::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .scroll-comments::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 10px;
+    }
+
+    .comment-item {
+      display: flex;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: 0.2s;
+    }
+
+    .comment-item:hover {
+      transform: translateX(4px);
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .comment-body {
+      flex: 1;
+    }
+
+    .comment-user {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .comment-text {
+      font-size: 0.8rem;
+      color: #cbd5f5;
+    }
+
+    .empty-comments {
+      text-align: center;
+      color: var(--muted);
+      padding: 20px;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div class="topbar">
+    <h6 class="mb-0">📖 Full Blog View</h6>
+
+    <a href="/admin/dashboard/blogs" class="btn btn-glass">
+      <i class="bi bi-arrow-left"></i> Back
+    </a>
+  </div>
+
+  <div class="blog-container">
+
+    <div class="blog-card">
+
+      <!-- COVER -->
+      <div class="cover">
+        <img src="<%= blog.coverImage || 'https://via.placeholder.com/900x360' %>">
+        <span class="category-badge">
+          <%= blog.category || 'General' %>
+        </span>
+      </div>
+
+      <!-- CONTENT -->
+      <div class="content">
+
+        <div class="title">
+          <%= blog.title %>
+        </div>
+
+        <div class="meta">
+          <span>By <%= blog.author?.name || 'Unknown' %></span>
+          <span>
+            <%= new Date(blog.createdAt).toLocaleDateString() %>
+          </span>
+        </div>
+
+        <div class="stats">
+          <div class="stat-pill">
+            <i class="bi bi-heart"></i>
+            <%= blog.totalLikes || 0 %>
+          </div>
+          <div class="stat-pill">
+            <i class="bi bi-chat"></i>
+            <%= blog.totalComments || 0 %>
+          </div>
+        </div>
+
+        <div class="blog-text">
+          <%= blog.content %>
+        </div>
+
+        <!-- COMMENTS -->
+        <div class="comments-box">
+
+          <div class="comments-header">
+            <h6 class="mb-0">Comments</h6>
+            <span class="comment-count">
+              <%= blog.comments?.length || 0 %> total
+            </span>
+          </div>
+
+          <div class="scroll-comments">
+
+            <% if (blog.comments && blog.comments.length) { %>
+
+              <% blog.comments.forEach(comment=> { %>
+                <div class="comment-item">
+
+                  <div class="avatar">
+                    <%= comment.user?.userName?.charAt(0).toUpperCase() || 'U' %>
+                  </div>
+
+                  <div class="comment-body">
+                    <div class="comment-user">
+                      <%= comment.user?.userName || 'User' %>
+                    </div>
+                    <div class="comment-text">
+                      <%= comment.content %>
+                    </div>
+                  </div>
+
+                </div>
+                <% }) %>
+
+                  <% } else { %>
+
+                    <div class="empty-comments">
+                      <i class="bi bi-chat-dots"></i><br>
+                      No comments yet
+                    </div>
+
+                    <% } %>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+
+</html>

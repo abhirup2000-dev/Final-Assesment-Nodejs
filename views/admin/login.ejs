@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-deep: #07090f;
+      --bg-card: #111722;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hi: rgba(255, 255, 255, 0.18);
+      --accent: #3b82f6;
+      --accent-2: #06b6d4;
+      --text-hi: #f0f4ff;
+      --text-mid: #8b9bba;
+      --text-lo: #3d4f6b;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-deep);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-hi);
+      margin: 0;
+      overflow: hidden;
+    }
+
+    /* GRID + GLOW */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -20vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 500px;
+      background: radial-gradient(ellipse, rgba(59, 130, 246, 0.12), transparent 70%);
+    }
+
+    /* CARD */
+    .login-card {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 420px;
+      padding: 40px;
+      border-radius: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.7);
+      animation: fadeUp 0.5s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .brand {
+      font-size: 0.7rem;
+      letter-spacing: 1.4px;
+      color: #93c5fd;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+    }
+
+    .title {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      margin-bottom: 28px;
+    }
+
+    /* INPUT */
+    .form-label {
+      font-size: 0.75rem;
+      color: var(--text-mid);
+      margin-bottom: 5px;
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 0.88rem;
+      transition: 0.25s;
+      color: #fff !important;
+      -webkit-text-fill-color: #fff !important;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      background: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .form-control::placeholder {
+      color: var(--text-lo);
+    }
+
+    /* PASSWORD */
+    .pw-wrapper {
+      position: relative;
+    }
+
+    .pw-toggle {
+      position: absolute;
+      right: 14px;
+      top: 66%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: var(--text-lo);
+    }
+
+    .pw-toggle:hover {
+      color: var(--text-hi);
+    }
+
+    /* BUTTON */
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent), #2563eb);
+      color: white;
+      font-weight: 600;
+      margin-top: 12px;
+      transition: 0.25s;
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 50px rgba(59, 130, 246, 0.45);
+    }
+
+    .footer {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-mid);
+    }
+
+    .footer a {
+      color: #93c5fd;
+      text-decoration: none;
+    }
+
+    /* ALERT SYSTEM (UNCHANGED) */
+    .alert-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .custom-alert {
+      min-width: 260px;
+      max-width: 320px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 0.85rem;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      animation: slideIn 0.3s ease;
+    }
+
+    .alert-left {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .custom-alert.error {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+    }
+
+    .custom-alert.success {
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #4ade80;
+    }
+
+    .alert-close {
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+
+    .alert-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      width: 100%;
+      background: currentColor;
+      opacity: 0.4;
+      animation: shrink 4s linear forwards;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes shrink {
+      from {
+        width: 100%;
+      }
+
+      to {
+        width: 0%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ALERT -->
+  <div class="alert-container">
+    <% if (typeof error !=="undefined" && error.length> 0) { %>
+      <div class="custom-alert error">
+        <div class="alert-left">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          <span>
+            <%= error[0] %>
+          </span>
+        </div>
+        <button class="alert-close" onclick="dismissAlert(this)">
+          <i class="bi bi-x-lg"></i>
+        </button>
+        <div class="alert-bar"></div>
+      </div>
+      <% } %>
+
+        <% if (typeof success !=="undefined" && success.length> 0) { %>
+          <div class="custom-alert success">
+            <div class="alert-left">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>
+                <%= success[0] %>
+              </span>
+            </div>
+            <button class="alert-close" onclick="dismissAlert(this)">
+              <i class="bi bi-x-lg"></i>
+            </button>
+            <div class="alert-bar"></div>
+          </div>
+          <% } %>
+  </div>
+
+  <div class="login-card">
+
+    <div class="brand">
+      <i class="bi bi-shield-lock"></i> ADMIN PANEL
+    </div>
+
+    <div class="title">Welcome back</div>
+    <div class="subtitle">Sign in to continue</div>
+
+    <form action="/admin/login" method="POST">
+
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" required />
+      </div>
+
+      <div class="mb-3 pw-wrapper">
+        <label class="form-label">Password</label>
+        <input type="password" id="password" name="password" class="form-control" required />
+        <i class="bi bi-eye pw-toggle" onclick="togglePw(this)"></i>
+      </div>
+
+      <button class="btn-login">Sign In →</button>
+
+    </form>
+
+    <div class="footer">
+      Don’t have an account? <a href="/admin/register-view">Sign up</a>
+    </div>
+
+  </div>
+
+  <script>
+    function togglePw(el) {
+      const input = el.closest(".pw-wrapper").querySelector("input");
+      const hidden = input.type === "password";
+      input.type = hidden ? "text" : "password";
+      el.classList.toggle("bi-eye");
+      el.classList.toggle("bi-eye-slash");
+    }
+
+    function dismissAlert(btn) {
+      const el = btn.closest(".custom-alert");
+      el.style.opacity = "0";
+      el.style.transform = "translateX(40px)";
+      setTimeout(() => el.remove(), 250);
+    }
+
+    setTimeout(() => {
+      document.querySelectorAll(".custom-alert").forEach(el => {
+        el.style.opacity = "0";
+        el.style.transform = "translateX(40px)";
+        setTimeout(() => el.remove(), 250);
+      });
+    }, 4000);
+  </script>
+
+</body>
+
+</html>

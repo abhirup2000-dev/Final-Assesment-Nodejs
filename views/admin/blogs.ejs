@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <%= title %>
+  </title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-deep: #07090f;
+      --bg-surface: #0d1117;
+      --bg-card: #111722;
+      --bg-hover: #161d2b;
+      --border: rgba(255, 255, 255, 0.07);
+      --border-hi: rgba(255, 255, 255, 0.14);
+      --accent: #3b82f6;
+      --accent-2: #06b6d4;
+      --accent-glow: rgba(59, 130, 246, 0.18);
+      --text-hi: #f0f4ff;
+      --text-mid: #8b9bba;
+      --text-lo: #3d4f6b;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --success: #10b981;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-hi);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -30vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(59, 130, 246, 0.09) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── TOPBAR ─── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 9, 15, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 36px;
+      height: 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      color: #fff;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.35);
+    }
+
+    .topbar-brand h5 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.01em;
+      color: var(--text-hi);
+      margin: 0;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border-hi);
+      color: var(--text-mid);
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 0.82rem;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      color: var(--text-hi);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .btn-create {
+      background: linear-gradient(135deg, var(--accent), #2563eb);
+      border: none;
+      color: #fff;
+      border-radius: 10px;
+      padding: 8px 18px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: 'Syne', sans-serif;
+      cursor: pointer;
+      transition: all 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: 0 4px 18px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-create:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 28px rgba(59, 130, 246, 0.45);
+      color: #fff;
+    }
+
+    /* ─── PAGE HEADER ─── */
+    .page-header {
+      position: relative;
+      z-index: 1;
+      padding: 44px 36px 28px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .page-title-group h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+      color: var(--text-hi);
+      line-height: 1.15;
+    }
+
+    .page-title-group p {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      margin-top: 4px;
+    }
+
+    .blog-count-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-hi);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+    }
+
+    /* ─── GRID ─── */
+    .blogs-grid {
+      position: relative;
+      z-index: 1;
+      padding: 0 28px 60px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 22px;
+    }
+
+    /* ─── BLOG CARD ─── */
+    .blog-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.28s cubic-bezier(.22, .68, 0, 1.2), box-shadow 0.28s, border-color 0.28s;
+      position: relative;
+      animation: cardIn 0.4s ease both;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--border-hi);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(59, 130, 246, 0.08) inset;
+    }
+
+    .card-image {
+      position: relative;
+      width: 100%;
+      height: 190px;
+      overflow: hidden;
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .blog-card:hover .card-image img {
+      transform: scale(1.04);
+    }
+
+    .card-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(13, 17, 23, 0.85) 100%);
+    }
+
+    .category-chip {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(59, 130, 246, 0.18);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+      padding: 4px 11px;
+      border-radius: 999px;
+      font-size: 10.5px;
+      font-weight: 600;
+      font-family: 'Syne', sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
+    }
+
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text-hi);
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .card-excerpt {
+      font-size: 0.82rem;
+      color: var(--text-mid);
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 14px;
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.77rem;
+      color: var(--text-mid);
+    }
+
+    .stat-pill i {
+      font-size: 12px;
+    }
+
+    .stat-pill.likes i {
+      color: #f87171;
+    }
+
+    .stat-pill.comments i {
+      color: #60a5fa;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+
+    .meta-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .avatar-circle {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      flex-shrink: 0;
+    }
+
+    .meta-author-name {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-hi);
+    }
+
+    .meta-date {
+      font-size: 0.75rem;
+      color: var(--text-lo);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .comments-box {
+      max-height: 80px;
+      overflow-y: auto;
+      margin-bottom: 14px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-hi) transparent;
+    }
+
+    .comment-item {
+      font-size: 0.77rem;
+      color: var(--text-mid);
+      padding: 4px 0;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.5;
+    }
+
+    .comment-item:last-child {
+      border-bottom: none;
+    }
+
+    .comment-item strong {
+      color: var(--text-hi);
+      font-weight: 500;
+    }
+
+    .no-comments {
+      font-size: 0.75rem;
+      color: var(--text-lo);
+      font-style: italic;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: auto;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 9px;
+      padding: 7px 13px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn-view {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-hi);
+      color: var(--text-mid);
+    }
+
+    .btn-view:hover {
+      background: rgba(255, 255, 255, 0.11);
+      color: var(--text-hi);
+    }
+
+    .btn-edit {
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: #fbbf24;
+    }
+
+    .btn-edit:hover {
+      background: rgba(245, 158, 11, 0.22);
+    }
+
+    .btn-del {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.22);
+      color: #f87171;
+      margin-left: auto;
+    }
+
+    .btn-del:hover {
+      background: rgba(239, 68, 68, 0.22);
+    }
+
+    /* ─── EMPTY STATE ─── */
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 80px 20px;
+      text-align: center;
+      color: var(--text-lo);
+    }
+
+    .empty-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 20px;
+      color: var(--text-lo);
+    }
+
+    .empty-state h4 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      color: var(--text-mid);
+      margin-bottom: 6px;
+    }
+
+    /* ─── MODALS ─── */
+    .modal-content {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hi);
+      border-radius: 20px;
+      color: var(--text-hi);
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+    }
+
+    .modal-header h5 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .modal-body {
+      padding: 22px 24px;
+    }
+
+    .modal-footer {
+      border-top: 1px solid var(--border);
+      padding: 16px 24px;
+      gap: 10px;
+    }
+
+    .form-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-family: 'Syne', sans-serif;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-hi);
+      color: var(--text-hi);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.87rem;
+      padding: 10px 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+
+    .form-control:focus {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+      color: var(--text-hi);
+      outline: none;
+    }
+
+    .form-control::placeholder {
+      color: var(--text-lo);
+    }
+
+    textarea.form-control {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    input[type="file"].form-control {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .btn-modal-cancel {
+      background: transparent;
+      border: 1px solid var(--border-hi);
+      color: var(--text-mid);
+      border-radius: 10px;
+      padding: 9px 18px;
+      font-size: 0.84rem;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-modal-cancel:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-hi);
+    }
+
+    .btn-modal-submit {
+      background: linear-gradient(135deg, var(--accent), #2563eb);
+      border: none;
+      color: #fff;
+      border-radius: 10px;
+      padding: 9px 22px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: 'Syne', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.28);
+    }
+
+    .btn-modal-submit:hover {
+      box-shadow: 0 6px 22px rgba(59, 130, 246, 0.4);
+      transform: translateY(-1px);
+    }
+
+    /* ─── ALERTS ─── */
+    .alert-container {
+      position: fixed;
+      top: 78px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .custom-alert {
+      min-width: 280px;
+      max-width: 340px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      border-radius: 14px;
+      font-size: 0.83rem;
+      backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+      animation: slideIn 0.35s cubic-bezier(.22, .68, 0, 1.2);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .alert-left {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .alert-left i {
+      font-size: 15px;
+    }
+
+    .custom-alert.error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.28);
+      color: #f87171;
+    }
+
+    .custom-alert.success {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      color: #34d399;
+    }
+
+    .alert-close {
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      opacity: 0.6;
+      padding: 2px;
+      transition: opacity 0.2s;
+    }
+
+    .alert-close:hover {
+      opacity: 1;
+    }
+
+    .alert-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      width: 100%;
+      background: currentColor;
+      opacity: 0.35;
+      animation: shrink 4s linear forwards;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(50px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+    }
+
+    @keyframes shrink {
+      from {
+        width: 100%;
+      }
+
+      to {
+        width: 0%;
+      }
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .blog-card:nth-child(1) {
+      animation-delay: 0.04s;
+    }
+
+    .blog-card:nth-child(2) {
+      animation-delay: 0.08s;
+    }
+
+    .blog-card:nth-child(3) {
+      animation-delay: 0.12s;
+    }
+
+    .blog-card:nth-child(4) {
+      animation-delay: 0.16s;
+    }
+
+    .blog-card:nth-child(5) {
+      animation-delay: 0.20s;
+    }
+
+    .blog-card:nth-child(6) {
+      animation-delay: 0.24s;
+    }
+
+    .blog-card:nth-child(7) {
+      animation-delay: 0.28s;
+    }
+
+    .blog-card:nth-child(8) {
+      animation-delay: 0.32s;
+    }
+
+    .blog-card:nth-child(9) {
+      animation-delay: 0.36s;
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-hi);
+      border-radius: 99px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ─── ALERTS ─── -->
+  <div class="alert-container">
+    <% if (typeof error !=="undefined" && error.length> 0) { %>
+      <div class="custom-alert error">
+        <div class="alert-left">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          <span>
+            <%= error[0] %>
+          </span>
+        </div>
+        <button class="alert-close" onclick="dismissAlert(this)"><i class="bi bi-x-lg"></i></button>
+        <div class="alert-bar"></div>
+      </div>
+      <% } %>
+        <% if (typeof success !=="undefined" && success.length> 0) { %>
+          <div class="custom-alert success">
+            <div class="alert-left">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>
+                <%= success[0] %>
+              </span>
+            </div>
+            <button class="alert-close" onclick="dismissAlert(this)"><i class="bi bi-x-lg"></i></button>
+            <div class="alert-bar"></div>
+          </div>
+          <% } %>
+  </div>
+
+  <!-- ─── TOPBAR ─── -->
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="brand-icon"><i class="bi bi-journals"></i></div>
+      <h5>Blog Admin</h5>
+    </div>
+    <div class="top-actions">
+      <a href="/admin/dashboard" class="btn-ghost">
+        <i class="bi bi-speedometer2"></i> Dashboard
+      </a>
+      <button class="btn-create" data-bs-toggle="modal" data-bs-target="#createBlogModal">
+        <i class="bi bi-plus-lg"></i> New Blog
+      </button>
+    </div>
+  </div>
+
+  <!-- ─── PAGE HEADER ─── -->
+  <div class="page-header">
+    <div class="page-title-group">
+      <h1>All Blogs</h1>
+      <p>Manage and publish your content</p>
+    </div>
+    <% if (blogs && blogs.length) { %>
+      <div class="blog-count-pill">
+        <%= blogs.length %> post<%= blogs.length !==1 ? 's' : '' %>
+      </div>
+      <% } %>
+  </div>
+
+  <!-- ─── BLOG GRID ─── -->
+  <div class="blogs-grid">
+    <% if (blogs && blogs.length) { %>
+      <% blogs.forEach(blog=> { %>
+
+        <div class="blog-card">
+          <!-- IMAGE -->
+          <div class="card-image">
+            <img src="<%= blog.coverImage || 'https://via.placeholder.com/400x200/0d1117/3b82f6?text=Blog' %>"
+              alt="<%= blog.title %>">
+            <div class="card-image-overlay"></div>
+            <span class="category-chip">
+              <%= blog.category || 'General' %>
+            </span>
+          </div>
+
+          <!-- BODY -->
+          <div class="card-body">
+            <div class="card-title">
+              <%= blog.title %>
+            </div>
+            <div class="card-excerpt">
+              <%= (blog.excerpt || '' ).substring(0, 90) %>...
+            </div>
+
+            <div class="stats-row">
+              <div class="stat-pill likes">
+                <i class="bi bi-heart-fill"></i>
+                <span>
+                  <%= blog.totalLikes || 0 %> likes
+                </span>
+              </div>
+              <div class="stat-pill comments">
+                <i class="bi bi-chat-fill"></i>
+                <span>
+                  <%= blog.totalComments || 0 %> comments
+                </span>
+              </div>
+            </div>
+
+            <div class="card-meta">
+              <div class="meta-author">
+                <div class="avatar-circle">
+                  <%= (blog.author?.name || 'U' )[0].toUpperCase() %>
+                </div>
+                <span class="meta-author-name">
+                  <%= blog.author?.name || 'Unknown' %>
+                </span>
+              </div>
+              <div class="meta-date">
+                <i class="bi bi-calendar3"></i>
+                <%= new Date(blog.createdAt).toLocaleDateString() %>
+              </div>
+            </div>
+
+            <div class="comments-box">
+              <% if (blog.comments?.length) { %>
+                <% blog.comments.forEach(comment=> { %>
+                  <div class="comment-item">
+                    <strong>
+                      <%= comment.user?.userName || 'User' %>:
+                    </strong>
+                    <span>
+                      <%= comment.content %>
+                    </span>
+                  </div>
+                  <% }) %>
+                    <% } else { %>
+                      <span class="no-comments">No comments yet</span>
+                      <% } %>
+            </div>
+
+            <% if (admin) { %>
+              <div class="card-actions">
+                <a href="/admin/fullblog-view/<%= blog._id %>" class="btn-action btn-view">
+                  <i class="bi bi-eye"></i> View
+                </a>
+                <% if (blog.author?._id && blog.author._id.toString()===admin.userId.toString()) { %>
+                  <button class="btn-action btn-edit" data-bs-toggle="modal"
+                    data-bs-target="#editModal-<%= blog._id %>">
+                    <i class="bi bi-pencil"></i> Edit
+                  </button>
+                  <% } %>
+                    <form action="/admin/blog/delete/<%= blog._id %>" method="POST" style="margin-left:auto;">
+                      <button type="submit" class="btn-action btn-del">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </form>
+              </div>
+              <% } %>
+          </div>
+        </div>
+
+        <% }) %>
+          <% } else { %>
+            <div class="empty-state">
+              <div class="empty-icon"><i class="bi bi-journal-x"></i></div>
+              <h4>No blogs yet</h4>
+              <p style="font-size:0.85rem; color:var(--text-lo); margin-top:4px;">Create your first post to get started.
+              </p>
+            </div>
+            <% } %>
+  </div>
+
+  <!-- ─── CREATE MODAL ─── -->
+  <div class="modal fade" id="createBlogModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5><i class="bi bi-plus-circle me-2" style="color:var(--accent)"></i>Create New Blog</h5>
+          <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form action="/admin/blog/create" method="POST" enctype="multipart/form-data">
+          <div class="modal-body">
+            <label class="form-label">Title</label>
+            <input name="title" class="form-control mb-3" placeholder="Enter blog title…" required>
+
+            <label class="form-label">Content</label>
+            <textarea name="content" class="form-control mb-3" placeholder="Write your content here…"
+              required></textarea>
+
+            <label class="form-label">Excerpt</label>
+            <textarea name="excerpt" class="form-control mb-3" placeholder="Short preview snippet…" required></textarea>
+
+            <label class="form-label">Category</label>
+            <input name="category" class="form-control mb-3" placeholder="e.g. Technology, Lifestyle…" required>
+
+            <label class="form-label">Cover Image</label>
+            <input type="file" name="coverImage" class="form-control">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn-modal-submit"><i class="bi bi-send me-1"></i>Publish</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── EDIT MODALS ─── -->
+  <% if (blogs && blogs.length) { %>
+    <% blogs.forEach(blog=> { %>
+      <% if (admin && blog.author?._id && blog.author._id.toString()===admin.userId.toString()) { %>
+
+        <div class="modal fade" id="editModal-<%= blog._id %>" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5><i class="bi bi-pencil-square me-2" style="color:var(--accent)"></i>Edit Blog</h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+              </div>
+              <!-- update form -->
+              <form action="/admin/blog/update/<%= blog._id %>" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                  <label class="form-label">Title</label>
+                  <input name="title" value="<%= blog.title %>" class="form-control mb-3" required>
+
+                  <label class="form-label">Content</label>
+                  <textarea name="content" class="form-control mb-3" required><%= blog.content %></textarea>
+
+                  <label class="form-label">Excerpt</label>
+                  <textarea name="excerpt" class="form-control mb-3" required><%= blog.excerpt %></textarea>
+
+                  <label class="form-label">Category</label>
+                  <input name="category" value="<%= blog.category %>" class="form-control mb-3" required>
+
+                  <label class="form-label">Cover Image</label>
+                  <input type="file" name="coverImage" class="form-control">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn-modal-submit">Update Blog</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <% } %>
+          <% }) %>
+            <% } %>
+
+
+              <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+              <script>
+                function dismissAlert(btn) {
+                  const el = btn.closest(".custom-alert");
+                  el.style.opacity = "0";
+                  el.style.transform = "translateX(40px)";
+                  setTimeout(() => el.remove(), 250);
+                }
+
+                setTimeout(() => {
+                  document.querySelectorAll(".custom-alert").forEach(el => {
+                    el.style.opacity = "0";
+                    el.style.transform = "translateX(40px)";
+                    setTimeout(() => el.remove(), 250);
+                  });
+                }, 4000);
+              </script>
+</body>
+
+</html>

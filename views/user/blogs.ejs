@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <%= title %>
+  </title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-deep: #07090f;
+      --bg-surface: #0d1117;
+      --bg-card: #111722;
+      --bg-hover: #161d2b;
+      --border: rgba(255, 255, 255, 0.07);
+      --border-hi: rgba(255, 255, 255, 0.14);
+      --accent: #3b82f6;
+      --accent-2: #06b6d4;
+      --text-hi: #f0f4ff;
+      --text-mid: #8b9bba;
+      --text-lo: #3d4f6b;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --success: #10b981;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-hi);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 9, 15, 0.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 0 24px rgba(59, 130, 246, 0.35);
+    }
+
+    .topbar-brand h5 {
+      margin: 0;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-ghost,
+    .btn-create {
+      text-decoration: none;
+      border-radius: 12px;
+      padding: 10px 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: .25s;
+      font-size: .85rem;
+    }
+
+    .btn-ghost {
+      border: 1px solid var(--border-hi);
+      color: var(--text-mid);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+    }
+
+    .btn-create {
+      border: none;
+      background: linear-gradient(135deg, var(--accent), #2563eb);
+      color: white;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(59, 130, 246, .25);
+    }
+
+    .btn-create:hover {
+      transform: translateY(-1px);
+    }
+
+    .page-header {
+      padding: 42px 34px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+    }
+
+    .page-title-group h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+    }
+
+    .page-title-group p {
+      margin-top: 5px;
+      color: var(--text-mid);
+      font-size: .85rem;
+    }
+
+    .blog-count-pill {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border-hi);
+      background: var(--bg-card);
+      font-size: .8rem;
+      color: var(--text-mid);
+    }
+
+    .blogs-grid {
+      padding: 0 28px 60px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 22px;
+    }
+
+    .blog-card {
+      background: var(--bg-card);
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: .3s;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--border-hi);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, .45);
+    }
+
+    .card-image {
+      position: relative;
+      height: 210px;
+      overflow: hidden;
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, .75));
+    }
+
+    .category-chip {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(59, 130, 246, .18);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, .35);
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: .7rem;
+      font-family: 'Syne', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      backdrop-filter: blur(8px);
+    }
+
+    .card-body {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      height: calc(100% - 210px);
+    }
+
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .card-excerpt {
+      color: var(--text-mid);
+      font-size: .83rem;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .77rem;
+      color: var(--text-mid);
+    }
+
+    .likes i {
+      color: #fb7185;
+    }
+
+    .comments i {
+      color: #60a5fa;
+    }
+
+    .card-meta {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .meta-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: .75rem;
+    }
+
+    .meta-author-name {
+      font-size: .8rem;
+    }
+
+    .meta-date {
+      color: var(--text-lo);
+      font-size: .75rem;
+    }
+
+    .comments-box {
+      max-height: 90px;
+      overflow-y: auto;
+      margin-bottom: 16px;
+    }
+
+    .comment-item {
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .77rem;
+      color: var(--text-mid);
+    }
+
+    .comment-item strong {
+      color: white;
+    }
+
+    .comment-item:last-child {
+      border-bottom: none;
+    }
+
+    .no-comments {
+      color: var(--text-lo);
+      font-size: .76rem;
+      font-style: italic;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: auto;
+      align-items: center;
+    }
+
+    .btn-action {
+      border: none;
+      border-radius: 10px;
+      padding: 8px 14px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .78rem;
+      transition: .2s;
+    }
+
+    .btn-view {
+      background: rgba(255, 255, 255, .05);
+      color: var(--text-mid);
+      border: 1px solid var(--border-hi);
+    }
+
+    .btn-view:hover {
+      color: white;
+    }
+
+    .btn-edit {
+      background: rgba(245, 158, 11, .12);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, .25);
+    }
+
+    .btn-del {
+      background: rgba(239, 68, 68, .12);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, .25);
+      margin-left: auto;
+    }
+
+    .empty-state {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 90px 20px;
+    }
+
+    .empty-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto auto 20px;
+      font-size: 2rem;
+      color: var(--text-lo);
+    }
+
+    .modal-content {
+      background: var(--bg-surface);
+      border-radius: 22px;
+      border: 1px solid var(--border-hi);
+      color: white;
+    }
+
+    .modal-header,
+    .modal-footer {
+      border-color: var(--border);
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--border-hi);
+      color: white;
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    .form-control:focus {
+      background: rgba(255, 255, 255, .05);
+      color: white;
+      border-color: var(--accent);
+      box-shadow: none;
+    }
+
+    .form-label {
+      margin-bottom: 7px;
+      font-size: .78rem;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      font-family: 'Syne', sans-serif;
+    }
+
+    .btn-modal-submit {
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), #2563eb);
+      color: white;
+      padding: 10px 20px;
+      font-family: 'Syne', sans-serif;
+    }
+
+    .btn-modal-cancel {
+      border-radius: 12px;
+      border: 1px solid var(--border-hi);
+      background: transparent;
+      color: var(--text-mid);
+      padding: 10px 18px;
+    }
+
+    .alert-container {
+      position: fixed;
+      top: 78px;
+      right: 20px;
+      z-index: 9999;
+    }
+
+    .custom-alert {
+      min-width: 280px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .custom-alert.success {
+      background: rgba(16, 185, 129, .1);
+      border: 1px solid rgba(16, 185, 129, .25);
+      color: #34d399;
+    }
+
+    .custom-alert.error {
+      background: rgba(239, 68, 68, .1);
+      border: 1px solid rgba(239, 68, 68, .25);
+      color: #f87171;
+    }
+
+    .alert-left {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .alert-close {
+      background: none;
+      border: none;
+      color: inherit;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ALERTS -->
+  <div class="alert-container">
+
+    <% if(typeof error !=="undefined" && error.length> 0){ %>
+      <div class="custom-alert error">
+        <div class="alert-left">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          <span>
+            <%= error[0] %>
+          </span>
+        </div>
+
+        <button class="alert-close" onclick="dismissAlert(this)">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <% } %>
+
+        <% if(typeof success !=="undefined" && success.length> 0){ %>
+          <div class="custom-alert success">
+            <div class="alert-left">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>
+                <%= success[0] %>
+              </span>
+            </div>
+
+            <button class="alert-close" onclick="dismissAlert(this)">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+          <% } %>
+
+  </div>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+
+    <div class="topbar-brand">
+      <div class="brand-icon">
+        <i class="bi bi-journals"></i>
+      </div>
+
+      <h5>User Blogs</h5>
+    </div>
+
+    <div class="top-actions">
+
+      <a href="/user/home" class="btn-ghost">
+        <i class="bi bi-speedometer2"></i>
+        Dashboard
+      </a>
+
+      <button class="btn-create" data-bs-toggle="modal" data-bs-target="#createBlogModal">
+        <i class="bi bi-plus-lg"></i>
+        New Blog
+      </button>
+
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <div class="page-header">
+
+    <div class="page-title-group">
+      <h1>All Blogs</h1>
+      <p>Discover and manage blog content</p>
+    </div>
+
+    <% if(blogs && blogs.length){ %>
+      <div class="blog-count-pill">
+        <%= blogs.length %> posts
+      </div>
+      <% } %>
+
+  </div>
+
+  <!-- BLOGS -->
+  <div class="blogs-grid">
+
+    <% if(blogs && blogs.length){ %>
+
+      <% blogs.forEach(blog=> { %>
+
+        <% if(blog.isDeleted===false){ %>
+
+          <div class="blog-card">
+
+            <div class="card-image">
+              <img src="<%= blog.coverImage || 'https://via.placeholder.com/400x200/111827/3b82f6?text=Blog' %>"
+                alt="<%= blog.title %>">
+
+              <div class="card-image-overlay"></div>
+
+              <span class="category-chip">
+                <%= blog.category || 'General' %>
+              </span>
+            </div>
+
+            <div class="card-body">
+
+              <div class="card-title">
+                <%= blog.title %>
+              </div>
+
+              <div class="card-excerpt">
+                <%= (blog.excerpt || '' ).substring(0, 100) %>...
+              </div>
+
+              <div class="stats-row">
+
+                <div class="stat-pill likes">
+                  <i class="bi bi-heart-fill"></i>
+                  <span>
+                    <%= blog.totalLikes || 0 %> likes
+                  </span>
+                </div>
+
+                <div class="stat-pill comments">
+                  <i class="bi bi-chat-fill"></i>
+                  <span>
+                    <%= blog.totalComments || 0 %> comments
+                  </span>
+                </div>
+
+              </div>
+
+              <div class="card-meta">
+
+                <div class="meta-author">
+
+                  <div class="avatar-circle">
+                    <%= (blog.author?.name || 'U' )[0].toUpperCase() %>
+                  </div>
+
+                  <span class="meta-author-name">
+                    <%= blog.author?.name || 'Unknown' %>
+                  </span>
+
+                </div>
+
+                <div class="meta-date">
+                  <i class="bi bi-calendar3"></i>
+                  <%= new Date(blog.createdAt).toLocaleDateString() %>
+                </div>
+
+              </div>
+
+              <div class="comments-box">
+
+                <% if(blog.comments?.length){ %>
+
+                  <% blog.comments.forEach(comment=> { %>
+
+                    <div class="comment-item">
+                      <strong>
+                        <%= comment.user?.userName || 'User' %>:
+                      </strong>
+                      <span>
+                        <%= comment.content %>
+                      </span>
+                    </div>
+
+                    <% }) %>
+
+                      <% } else { %>
+
+                        <span class="no-comments">No comments yet</span>
+
+                        <% } %>
+
+              </div>
+
+              <div class="card-actions">
+
+                <a href="/user/fullblog-view/<%= blog._id %>" class="btn-action btn-view">
+                  <i class="bi bi-eye"></i>
+                  View
+                </a>
+
+                <!-- user update and delete their blog -->
+                <% if( user && blog.author?._id && String(blog.author._id)===String(user.userId) ){ %>
+
+                  <button class="btn-action btn-edit" data-bs-toggle="modal"
+                    data-bs-target="#editModal-<%= blog._id %>">
+                    <i class="bi bi-pencil"></i>
+                    Edit
+                  </button>
+
+                  <form action="/user/blog/delete/<%= blog._id %>" method="POST" style="margin-left:auto;">
+                    <button type="submit" class="btn-action btn-del">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </form>
+
+                  <% } %>
+
+              </div>
+
+            </div>
+
+          </div>
+          <% } %>
+
+            <% }) %>
+
+              <% } else { %>
+
+                <div class="empty-state">
+
+                  <div class="empty-icon">
+                    <i class="bi bi-journal-x"></i>
+                  </div>
+
+                  <h4>No blogs found</h4>
+
+                </div>
+
+                <% } %>
+
+  </div>
+
+  <!-- CREATE MODAL -->
+  <div class="modal fade" id="createBlogModal" tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5>Create Blog</h5>
+
+          <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+
+        <form action="/user/blog/create" method="POST" enctype="multipart/form-data">
+
+          <div class="modal-body">
+
+            <label class="form-label">Title</label>
+            <input type="text" name="title" class="form-control mb-3" required>
+
+            <label class="form-label">Content</label>
+            <textarea name="content" class="form-control mb-3" required></textarea>
+
+            <label class="form-label">Excerpt</label>
+            <textarea name="excerpt" class="form-control mb-3" required></textarea>
+
+            <label class="form-label">Category</label>
+            <input type="text" name="category" class="form-control mb-3" required>
+
+            <label class="form-label">Cover Image</label>
+            <input type="file" name="coverImage" class="form-control">
+
+          </div>
+
+          <div class="modal-footer">
+
+            <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">
+              Cancel
+            </button>
+
+            <button type="submit" class="btn-modal-submit">
+              Publish
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- EDIT MODALS -->
+  <% if(blogs && blogs.length){ %>
+
+    <% blogs.forEach(blog=> { %>
+
+      <% if(user && blog.author?._id && blog.author._id.toString()===user.userId.toString()){ %>
+
+        <div class="modal fade" id="editModal-<%= blog._id %>" tabindex="-1">
+
+          <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <h5>Edit Blog</h5>
+
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+              </div>
+
+              <form action="/user/blog/update/<%= blog._id %>" method="POST" enctype="multipart/form-data">
+
+                <div class="modal-body">
+
+                  <label class="form-label">Title</label>
+                  <input type="text" name="title" value="<%= blog.title %>" class="form-control mb-3" required>
+
+                  <label class="form-label">Content</label>
+                  <textarea name="content" class="form-control mb-3" required><%= blog.content %></textarea>
+
+                  <label class="form-label">Excerpt</label>
+                  <textarea name="excerpt" class="form-control mb-3" required><%= blog.excerpt %></textarea>
+
+                  <label class="form-label">Category</label>
+                  <input type="text" name="category" value="<%= blog.category %>" class="form-control mb-3" required>
+
+                  <label class="form-label">Cover Image</label>
+                  <input type="file" name="coverImage" class="form-control">
+
+                </div>
+
+                <div class="modal-footer">
+
+                  <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">
+                    Cancel
+                  </button>
+
+                  <button type="submit" class="btn-modal-submit">
+                    Update Blog
+                  </button>
+
+                </div>
+
+              </form>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <% } %>
+
+          <% }) %>
+
+            <% } %>
+
+              <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+              <script>
+                function dismissAlert(btn) {
+                  const alert = btn.closest(".custom-alert");
+
+                  alert.style.opacity = "0";
+                  alert.style.transform = "translateX(40px)";
+
+                  setTimeout(() => {
+                    alert.remove();
+                  }, 250);
+                }
+
+                setTimeout(() => {
+                  document.querySelectorAll(".custom-alert").forEach(alert => {
+                    alert.style.opacity = "0";
+                    alert.style.transform = "translateX(40px)";
+
+                    setTimeout(() => {
+                      alert.remove();
+                    }, 250);
+                  });
+                }, 4000);
+              </script>
+
+</body>
+
+</html>
