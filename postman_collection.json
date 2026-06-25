@@ -1,0 +1,471 @@
+{
+  "info": {
+    "name": "Blog Platform API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "User API",
+      "item": [
+        {
+          "name": "Auth",
+          "item": [
+            {
+              "name": "Register",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "userName", "value": "testuser", "type": "text" },
+                    { "key": "email", "value": "user@example.com", "type": "text" },
+                    { "key": "password", "value": "password123", "type": "text" },
+                    { "key": "profileImage", "type": "file", "src": [] }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/user/register",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user", "register"]
+                }
+              }
+            },
+            {
+              "name": "Login",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    { "key": "email", "value": "user@example.com", "type": "text" },
+                    { "key": "password", "value": "password123", "type": "text" }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/user/login",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user", "login"]
+                }
+              }
+            },
+            {
+              "name": "Verify OTP",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    { "key": "email", "value": "user@example.com", "type": "text" },
+                    { "key": "otp", "value": "123456", "type": "text" }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/user/verify-otp",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user", "verify-otp"]
+                }
+              }
+            },
+            {
+              "name": "Logout",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/user/logout",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user", "logout"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Blog",
+          "item": [
+            {
+              "name": "Create Blog",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "title", "value": "My First Blog", "type": "text" },
+                    { "key": "content", "value": "This is the content of my first blog post.", "type": "text" },
+                    { "key": "excerpt", "value": "A short excerpt.", "type": "text" },
+                    { "key": "category", "value": "Tech", "type": "text" },
+                    { "key": "coverImage", "type": "file", "src": [] }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/user/blog/create",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user", "blog", "create"]
+                }
+              }
+            },
+            {
+              "name": "Update Blog",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "title", "value": "Updated Title", "type": "text" }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/user/blog/update/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user", "blog", "update", ":id"],
+                  "variable": [
+                    { "key": "id", "value": "BLOG_ID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Blog",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/user/blog/delete/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user", "blog", "delete", ":id"],
+                  "variable": [
+                    { "key": "id", "value": "BLOG_ID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Blogs API",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/user/blog",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user", "blog"]
+                }
+              }
+            },
+            {
+              "name": "Like Blog",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/user/blog/like/:blogId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user", "blog", "like", ":blogId"],
+                  "variable": [
+                    { "key": "blogId", "value": "BLOG_ID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Comment Blog",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    { "key": "content", "value": "Great post!", "type": "text" }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/user/blog/comment/:blogId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user", "blog", "comment", ":blogId"],
+                  "variable": [
+                    { "key": "blogId", "value": "BLOG_ID_HERE" }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Profile",
+          "item": [
+            {
+              "name": "Update Password",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    { "key": "currentPassword", "value": "password123", "type": "text" },
+                    { "key": "newPassword", "value": "newpassword123", "type": "text" }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/user/password-update",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user", "password-update"]
+                }
+              }
+            },
+            {
+              "name": "Update Profile Image",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "profileImage", "type": "file", "src": [] }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/user/update/profile-image",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user", "update", "profile-image"]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Admin API",
+      "item": [
+        {
+          "name": "Auth",
+          "item": [
+            {
+              "name": "Register",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "adminName", "value": "adminuser", "type": "text" },
+                    { "key": "email", "value": "admin@example.com", "type": "text" },
+                    { "key": "password", "value": "adminpass123", "type": "text" },
+                    { "key": "phone", "value": "1234567890", "type": "text" },
+                    { "key": "profileImage", "type": "file", "src": [] }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/register",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "register"]
+                }
+              }
+            },
+            {
+              "name": "Login",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    { "key": "email", "value": "admin@example.com", "type": "text" },
+                    { "key": "password", "value": "adminpass123", "type": "text" }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/login",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "login"]
+                }
+              }
+            },
+            {
+              "name": "Logout",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/logout",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "logout"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Blog",
+          "item": [
+            {
+              "name": "Create Blog",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "title", "value": "Admin Blog", "type": "text" },
+                    { "key": "content", "value": "Admin blog content.", "type": "text" },
+                    { "key": "excerpt", "value": "Admin excerpt.", "type": "text" },
+                    { "key": "category", "value": "News", "type": "text" },
+                    { "key": "coverImage", "type": "file", "src": [] }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/blog/create",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "blog", "create"]
+                }
+              }
+            },
+            {
+              "name": "Update Blog",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "title", "value": "Updated Admin Title", "type": "text" }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/blog/update/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "blog", "update", ":id"],
+                  "variable": [
+                    { "key": "id", "value": "BLOG_ID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Blog",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/blog/delete/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "blog", "delete", ":id"],
+                  "variable": [
+                    { "key": "id", "value": "BLOG_ID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Blogs API",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/blog",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "blog"]
+                }
+              }
+            },
+            {
+              "name": "Approve Blog",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/blog/approval/:blogId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "blog", "approval", ":blogId"],
+                  "variable": [
+                    { "key": "blogId", "value": "BLOG_ID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Reject Blog",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/blog/reject/:blogId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "blog", "reject", ":blogId"],
+                  "variable": [
+                    { "key": "blogId", "value": "BLOG_ID_HERE" }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Profile",
+          "item": [
+            {
+              "name": "Update Password",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    { "key": "currentPassword", "value": "adminpass123", "type": "text" },
+                    { "key": "newPassword", "value": "newadminpass123", "type": "text" }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/password-update",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "password-update"]
+                }
+              }
+            },
+            {
+              "name": "Update Profile Image",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "profileImage", "type": "file", "src": [] }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/update/profile-image",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "update", "profile-image"]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
